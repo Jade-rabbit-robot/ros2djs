@@ -1826,22 +1826,20 @@ var ROS2D = (function (exports, createjs, ROSLIB) {
           // determine the value
           var data = message.data[mapI];
           var val;
-          if (data === 100) {
-            val = 0;
-          } else if (data === 0) {
-            val = 255;
-          } else {
-            val = 127;
-          }
+			if (data >= 0 && data < 99) {
+				val = 255 - data * 2.55;
+			} else {
+				val = 127;
+			}
 
           // determine the index into the image data array
           var i = (col + (row * canvas.width)) * 4;
           // r
           imageData.data[i] = val;
           // g
-          imageData.data[++i] = val;
+          imageData.data[++i] = val ;
           // b
-          imageData.data[++i] = val;
+          imageData.data[++i] = val ;
           // a
           imageData.data[++i] = 255;
         }
@@ -1967,7 +1965,7 @@ var ROS2D = (function (exports, createjs, ROSLIB) {
         ros : ros,
         name : topic,
         messageType : 'nav_msgs/OccupancyGrid',
-        compression : 'png'
+        compression : 'pgm'
       });
 
       rosTopic.subscribe(function(message) {
